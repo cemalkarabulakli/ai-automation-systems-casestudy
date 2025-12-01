@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-01T21:42:36.887Z",
+  "updatedAt": "2025-12-01T22:04:07.683Z",
   "createdAt": "2025-11-29T15:22:09.418Z",
   "id": "5eHR3uY5pcGDI078",
   "name": "n8n Workflows GitHub Backup",
@@ -101,7 +101,7 @@
       "typeVersion": 3.4,
       "position": [
         944,
-        1264
+        1312
       ]
     },
     {
@@ -173,7 +173,7 @@
       "typeVersion": 2.2,
       "position": [
         1344,
-        1264
+        1312
       ]
     },
     {
@@ -205,7 +205,7 @@
       "typeVersion": 1.1,
       "position": [
         1568,
-        1072
+        1104
       ],
       "webhookId": "b045209d-a464-47d5-840a-c1f87abb914b",
       "retryOnFail": false,
@@ -298,7 +298,7 @@
       "type": "n8n-nodes-base.slack",
       "position": [
         944,
-        1072
+        1104
       ],
       "webhookId": "c02eb407-5547-4aa0-9ebf-46dab67b63b6",
       "typeVersion": 2.2,
@@ -329,7 +329,7 @@
       "typeVersion": 4.3,
       "position": [
         1168,
-        1264
+        1312
       ],
       "credentials": {
         "githubApi": {
@@ -513,8 +513,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "90401d54-0158-4177-b51c-f4066f587159",
-  "activeVersionId": "90401d54-0158-4177-b51c-f4066f587159",
+  "versionId": "ae78db17-c771-4273-83ca-eeea862c3001",
+  "activeVersionId": "ae78db17-c771-4273-83ca-eeea862c3001",
   "triggerCount": 2,
   "shared": [
     {
@@ -526,9 +526,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-01T21:42:36.535Z",
-    "createdAt": "2025-12-01T21:42:36.535Z",
-    "versionId": "90401d54-0158-4177-b51c-f4066f587159",
+    "updatedAt": "2025-12-01T22:04:07.332Z",
+    "createdAt": "2025-12-01T22:04:07.332Z",
+    "versionId": "ae78db17-c771-4273-83ca-eeea862c3001",
     "workflowId": "5eHR3uY5pcGDI078",
     "nodes": [
       {
@@ -626,7 +626,7 @@
         "typeVersion": 3.4,
         "position": [
           944,
-          1264
+          1312
         ]
       },
       {
@@ -698,7 +698,7 @@
         "typeVersion": 2.2,
         "position": [
           1344,
-          1264
+          1312
         ]
       },
       {
@@ -730,7 +730,7 @@
         "typeVersion": 1.1,
         "position": [
           1568,
-          1072
+          1104
         ],
         "webhookId": "b045209d-a464-47d5-840a-c1f87abb914b",
         "retryOnFail": false,
@@ -823,7 +823,7 @@
         "type": "n8n-nodes-base.slack",
         "position": [
           944,
-          1072
+          1104
         ],
         "webhookId": "c02eb407-5547-4aa0-9ebf-46dab67b63b6",
         "typeVersion": 2.2,
@@ -854,7 +854,7 @@
         "typeVersion": 4.3,
         "position": [
           1168,
-          1264
+          1312
         ],
         "credentials": {
           "githubApi": {
