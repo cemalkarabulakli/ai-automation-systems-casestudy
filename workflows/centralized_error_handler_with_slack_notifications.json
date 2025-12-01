@@ -1,0 +1,775 @@
+{
+  "updatedAt": "2025-12-01T22:14:24.369Z",
+  "createdAt": "2025-11-30T10:15:13.669Z",
+  "id": "PxjlYG2Q4JSxdsup",
+  "name": "Centralized Error Handler with Slack Notifications",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1b4ba680-2ed1-414b-8b6f-a057b3fba9dd",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -832,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "slackChannel",
+              "value": "notifications",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "errorSeverity",
+              "value": "high",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "notificationTitle",
+              "value": "🚨 Workflow Error Alert",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "591704bb-9f9d-4bdc-80cb-a6c821461a5c",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -560,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract error details from Error Trigger\nconst errorTriggerData = $input.first().json;\n\n// Get error details\nconst workflowName = errorTriggerData.workflow?.name || 'Unknown Workflow';\nconst executionId = errorTriggerData.execution?.id || 'N/A';\nconst errorMessage = errorTriggerData.error?.message || 'No error message available';\nconst nodeName = errorTriggerData.error?.node?.name || 'Unknown Node';\nconst timestamp = errorTriggerData.execution?.startedAt || new Date().toISOString();\nconst stackTrace = errorTriggerData.error?.stack || 'No stack trace available';\n\n// Get configuration from previous node\nconst config = $('Workflow Configuration').first().json;\nconst notificationTitle = config.notificationTitle || '🚨 Workflow Error Alert';\nconst severity = config.errorSeverity || 'high';\n\n// Format timestamp\nconst formattedTimestamp = new Date(timestamp).toLocaleString('en-US', {\n  year: 'numeric',\n  month: 'short',\n  day: 'numeric',\n  hour: '2-digit',\n  minute: '2-digit',\n  second: '2-digit',\n  timeZoneName: 'short'\n});\n\n// Determine severity emoji\nconst severityEmoji = {\n  'high': '🔴',\n  'medium': '🟡',\n  'low': '🟢'\n}[severity.toLowerCase()] || '⚠️';\n\n// Create comprehensive Slack message with blocks\nconst slackMessage = `${notificationTitle}\n\n${severityEmoji} *Severity:* ${severity.toUpperCase()}\n\n*Workflow:* ${workflowName}\n*Execution ID:* ${executionId}\n*Failed Node:* ${nodeName}\n*Timestamp:* ${formattedTimestamp}\n\n*Error Message:*\n\\`\\`\\`\n${errorMessage}\n\\`\\`\\`\n\n*Stack Trace:*\n\\`\\`\\`\n${stackTrace.substring(0, 1000)}${stackTrace.length > 1000 ? '...(truncated)' : ''}\n\\`\\`\\`\n\n_View execution details in n8n for more information._`;\n\n// Return formatted data\nreturn {\n  json: {\n    slackMessage,\n    workflowName,\n    executionId,\n    errorMessage,\n    nodeName,\n    timestamp: formattedTimestamp,\n    severity,\n    stackTrace\n  }\n};"
+      },
+      "id": "eae183f7-1aab-4801-b85a-ae8e39a37310",
+      "name": "Format Error Details",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -320,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $('Workflow Configuration').first().json.slackChannel }}"
+        },
+        "text": "={{ $json.slackMessage }}",
+        "otherOptions": {}
+      },
+      "id": "80607116-0af3-46c1-93c7-5e80a1b5509c",
+      "name": "Send Error to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        -240
+      ],
+      "webhookId": "66b10ac1-35f7-46e2-89a1-d14ba06a330e",
+      "credentials": {
+        "slackApi": {
+          "id": "CuzmOPMtETGz61Uq",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "3884550f-313a-4a3f-bb79-d8ee628da515",
+      "name": "n8n",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        -112,
+        128
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "LexzuuNlgtsadViM",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $workflow.id }}"
+        },
+        "requestOptions": {}
+      },
+      "id": "f5279dfc-f9d5-40e3-af56-49840c0b221c",
+      "name": "get error handler",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        -352,
+        128
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "LexzuuNlgtsadViM",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "workflowObject": "={{ JSON.stringify($json) }}",
+        "requestOptions": {}
+      },
+      "id": "b6184ba5-f955-482a-9cee-f0b531956766",
+      "name": "n8n | update",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        480,
+        32
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "LexzuuNlgtsadViM",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const data = $json\n\ndata.settings.errorWorkflow = $('get error handler').item.json.id ;\ndelete data.settings.callerPolicy;\n\nreturn {\n  id: data.id,\n  name: data.name,\n  nodes: data.nodes,\n  connections: data.connections,\n  settings: data.settings\n}"
+      },
+      "id": "943e9122-18bf-4197-ae23-9cb2d4e4045c",
+      "name": "set fields",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        288,
+        32
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "get ID of self",
+        "height": 216.67545344104974,
+        "width": 232.91556831986873
+      },
+      "id": "cefd382e-7873-4e20-8fe2-4f97c2ee74cd",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        80
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "612a73fb-3717-4d52-9102-d5f875e218ec",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        -576,
+        128
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "content": "Runs every day at midnight to update new workflows",
+        "height": 219.7116384468202,
+        "width": 214.6984582852457
+      },
+      "id": "618da40f-4c18-4e18-bb71-a0eed95c9e67",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -640,
+        64
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "290fd302-4e2d-44d6-8a8a-14a0b8f2c360",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.settings.errorWorkflow }}",
+              "rightValue": "=Default Error Handler"
+            },
+            {
+              "id": "2a5799e9-2030-4281-bf11-e7f9777906c5",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              },
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "={{ $('get error handler').item.json.id }}"
+            },
+            {
+              "id": "8bc4c2a0-e094-4426-8ae6-71b6e4fa9842",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.active }}",
+              "rightValue": ""
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7d4d96cf-66e8-4ea1-8e93-0672a9460f18",
+      "name": "active && no error handler set && not this  handler workflow",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        80,
+        128
+      ],
+      "typeVersion": 2
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Format Error Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Error Details": {
+      "main": [
+        [
+          {
+            "node": "Send Error to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n": {
+      "main": [
+        [
+          {
+            "node": "active && no error handler set && not this  handler workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get error handler": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set fields": {
+      "main": [
+        [
+          {
+            "node": "n8n | update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "get error handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "active && no error handler set && not this  handler workflow": {
+      "main": [
+        [
+          {
+            "node": "set fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": null,
+  "pinData": {},
+  "versionId": "2e8ce675-10dd-45c9-80dc-4ee4c7163a26",
+  "activeVersionId": "2e8ce675-10dd-45c9-80dc-4ee4c7163a26",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-11-30T10:15:13.669Z",
+      "createdAt": "2025-11-30T10:15:13.669Z",
+      "role": "workflow:owner",
+      "workflowId": "PxjlYG2Q4JSxdsup",
+      "projectId": "34wdTWun3zwPTO9K"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2025-12-01T22:14:24.024Z",
+    "createdAt": "2025-12-01T22:14:24.024Z",
+    "versionId": "2e8ce675-10dd-45c9-80dc-4ee4c7163a26",
+    "workflowId": "PxjlYG2Q4JSxdsup",
+    "nodes": [
+      {
+        "parameters": {},
+        "id": "1b4ba680-2ed1-414b-8b6f-a057b3fba9dd",
+        "name": "Error Trigger",
+        "type": "n8n-nodes-base.errorTrigger",
+        "typeVersion": 1,
+        "position": [
+          -832,
+          -240
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "id-1",
+                "name": "slackChannel",
+                "value": "notifications",
+                "type": "string"
+              },
+              {
+                "id": "id-2",
+                "name": "errorSeverity",
+                "value": "high",
+                "type": "string"
+              },
+              {
+                "id": "id-3",
+                "name": "notificationTitle",
+                "value": "🚨 Workflow Error Alert",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "id": "591704bb-9f9d-4bdc-80cb-a6c821461a5c",
+        "name": "Workflow Configuration",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -560,
+          -240
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "// Extract error details from Error Trigger\nconst errorTriggerData = $input.first().json;\n\n// Get error details\nconst workflowName = errorTriggerData.workflow?.name || 'Unknown Workflow';\nconst executionId = errorTriggerData.execution?.id || 'N/A';\nconst errorMessage = errorTriggerData.error?.message || 'No error message available';\nconst nodeName = errorTriggerData.error?.node?.name || 'Unknown Node';\nconst timestamp = errorTriggerData.execution?.startedAt || new Date().toISOString();\nconst stackTrace = errorTriggerData.error?.stack || 'No stack trace available';\n\n// Get configuration from previous node\nconst config = $('Workflow Configuration').first().json;\nconst notificationTitle = config.notificationTitle || '🚨 Workflow Error Alert';\nconst severity = config.errorSeverity || 'high';\n\n// Format timestamp\nconst formattedTimestamp = new Date(timestamp).toLocaleString('en-US', {\n  year: 'numeric',\n  month: 'short',\n  day: 'numeric',\n  hour: '2-digit',\n  minute: '2-digit',\n  second: '2-digit',\n  timeZoneName: 'short'\n});\n\n// Determine severity emoji\nconst severityEmoji = {\n  'high': '🔴',\n  'medium': '🟡',\n  'low': '🟢'\n}[severity.toLowerCase()] || '⚠️';\n\n// Create comprehensive Slack message with blocks\nconst slackMessage = `${notificationTitle}\n\n${severityEmoji} *Severity:* ${severity.toUpperCase()}\n\n*Workflow:* ${workflowName}\n*Execution ID:* ${executionId}\n*Failed Node:* ${nodeName}\n*Timestamp:* ${formattedTimestamp}\n\n*Error Message:*\n\\`\\`\\`\n${errorMessage}\n\\`\\`\\`\n\n*Stack Trace:*\n\\`\\`\\`\n${stackTrace.substring(0, 1000)}${stackTrace.length > 1000 ? '...(truncated)' : ''}\n\\`\\`\\`\n\n_View execution details in n8n for more information._`;\n\n// Return formatted data\nreturn {\n  json: {\n    slackMessage,\n    workflowName,\n    executionId,\n    errorMessage,\n    nodeName,\n    timestamp: formattedTimestamp,\n    severity,\n    stackTrace\n  }\n};"
+        },
+        "id": "eae183f7-1aab-4801-b85a-ae8e39a37310",
+        "name": "Format Error Details",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -320,
+          -240
+        ]
+      },
+      {
+        "parameters": {
+          "select": "channel",
+          "channelId": {
+            "__rl": true,
+            "mode": "name",
+            "value": "={{ $('Workflow Configuration').first().json.slackChannel }}"
+          },
+          "text": "={{ $json.slackMessage }}",
+          "otherOptions": {}
+        },
+        "id": "80607116-0af3-46c1-93c7-5e80a1b5509c",
+        "name": "Send Error to Slack",
+        "type": "n8n-nodes-base.slack",
+        "typeVersion": 2.3,
+        "position": [
+          -64,
+          -240
+        ],
+        "webhookId": "66b10ac1-35f7-46e2-89a1-d14ba06a330e",
+        "credentials": {
+          "slackApi": {
+            "id": "CuzmOPMtETGz61Uq",
+            "name": "Slack account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "filters": {},
+          "requestOptions": {}
+        },
+        "id": "3884550f-313a-4a3f-bb79-d8ee628da515",
+        "name": "n8n",
+        "type": "n8n-nodes-base.n8n",
+        "position": [
+          -112,
+          128
+        ],
+        "typeVersion": 1,
+        "credentials": {
+          "n8nApi": {
+            "id": "LexzuuNlgtsadViM",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "workflowId": {
+            "__rl": true,
+            "mode": "id",
+            "value": "={{ $workflow.id }}"
+          },
+          "requestOptions": {}
+        },
+        "id": "f5279dfc-f9d5-40e3-af56-49840c0b221c",
+        "name": "get error handler",
+        "type": "n8n-nodes-base.n8n",
+        "position": [
+          -352,
+          128
+        ],
+        "typeVersion": 1,
+        "credentials": {
+          "n8nApi": {
+            "id": "LexzuuNlgtsadViM",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "workflowId": {
+            "__rl": true,
+            "mode": "id",
+            "value": "={{ $json.id }}"
+          },
+          "workflowObject": "={{ JSON.stringify($json) }}",
+          "requestOptions": {}
+        },
+        "id": "b6184ba5-f955-482a-9cee-f0b531956766",
+        "name": "n8n | update",
+        "type": "n8n-nodes-base.n8n",
+        "position": [
+          480,
+          32
+        ],
+        "typeVersion": 1,
+        "credentials": {
+          "n8nApi": {
+            "id": "LexzuuNlgtsadViM",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "const data = $json\n\ndata.settings.errorWorkflow = $('get error handler').item.json.id ;\ndelete data.settings.callerPolicy;\n\nreturn {\n  id: data.id,\n  name: data.name,\n  nodes: data.nodes,\n  connections: data.connections,\n  settings: data.settings\n}"
+        },
+        "id": "943e9122-18bf-4197-ae23-9cb2d4e4045c",
+        "name": "set fields",
+        "type": "n8n-nodes-base.code",
+        "position": [
+          288,
+          32
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "content": "get ID of self",
+          "height": 216.67545344104974,
+          "width": 232.91556831986873
+        },
+        "id": "cefd382e-7873-4e20-8fe2-4f97c2ee74cd",
+        "name": "Sticky Note1",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -400,
+          80
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {}
+            ]
+          }
+        },
+        "id": "612a73fb-3717-4d52-9102-d5f875e218ec",
+        "name": "Schedule Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "position": [
+          -576,
+          128
+        ],
+        "typeVersion": 1.2
+      },
+      {
+        "parameters": {
+          "content": "Runs every day at midnight to update new workflows",
+          "height": 219.7116384468202,
+          "width": 214.6984582852457
+        },
+        "id": "618da40f-4c18-4e18-bb71-a0eed95c9e67",
+        "name": "Sticky Note2",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -640,
+          64
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "290fd302-4e2d-44d6-8a8a-14a0b8f2c360",
+                "operator": {
+                  "type": "string",
+                  "operation": "notExists",
+                  "singleValue": true
+                },
+                "leftValue": "={{ $json.settings.errorWorkflow }}",
+                "rightValue": "=Default Error Handler"
+              },
+              {
+                "id": "2a5799e9-2030-4281-bf11-e7f9777906c5",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEquals"
+                },
+                "leftValue": "={{ $json.id }}",
+                "rightValue": "={{ $('get error handler').item.json.id }}"
+              },
+              {
+                "id": "8bc4c2a0-e094-4426-8ae6-71b6e4fa9842",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                },
+                "leftValue": "={{ $json.active }}",
+                "rightValue": ""
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "7d4d96cf-66e8-4ea1-8e93-0672a9460f18",
+        "name": "active && no error handler set && not this  handler workflow",
+        "type": "n8n-nodes-base.if",
+        "position": [
+          80,
+          128
+        ],
+        "typeVersion": 2
+      }
+    ],
+    "connections": {
+      "Error Trigger": {
+        "main": [
+          [
+            {
+              "node": "Workflow Configuration",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Workflow Configuration": {
+        "main": [
+          [
+            {
+              "node": "Format Error Details",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Format Error Details": {
+        "main": [
+          [
+            {
+              "node": "Send Error to Slack",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "n8n": {
+        "main": [
+          [
+            {
+              "node": "active && no error handler set && not this  handler workflow",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "get error handler": {
+        "main": [
+          [
+            {
+              "node": "n8n",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "set fields": {
+        "main": [
+          [
+            {
+              "node": "n8n | update",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "get error handler",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "active && no error handler set && not this  handler workflow": {
+        "main": [
+          [
+            {
+              "node": "set fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Cemal Karabulaklı",
+    "name": null,
+    "description": null
+  },
+  "tags": [
+    {
+      "updatedAt": "2025-12-01T21:14:21.337Z",
+      "createdAt": "2025-12-01T21:14:21.337Z",
+      "id": "TlXbVpMog10NmaMF",
+      "name": "public"
+    }
+  ]
+}
