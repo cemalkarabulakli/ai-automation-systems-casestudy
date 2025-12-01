@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-01T21:14:25.392Z",
+  "updatedAt": "2025-12-01T21:16:36.340Z",
   "createdAt": "2025-11-29T15:22:09.418Z",
   "id": "5eHR3uY5pcGDI078",
   "name": "n8n Workflows GitHub Backup",
@@ -219,7 +219,7 @@
     {
       "parameters": {
         "filters": {
-          "tags": "Public"
+          "tags": "public"
         },
         "requestOptions": {}
       },
@@ -513,7 +513,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "60b8568e-c973-464f-88f4-b4e0ddc22da2",
+  "versionId": "fe6715d7-ceca-4853-af32-65599cc5e122",
   "triggerCount": 2,
   "shared": [
     {
