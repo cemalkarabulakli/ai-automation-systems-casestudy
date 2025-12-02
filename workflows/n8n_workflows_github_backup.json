@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-02T10:51:33.203Z",
+  "updatedAt": "2025-12-02T11:34:40.220Z",
   "createdAt": "2025-11-29T15:22:09.418Z",
   "id": "5eHR3uY5pcGDI078",
   "name": "n8n Workflows GitHub Backup",
@@ -548,8 +548,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "76403d07-3242-42a0-86e5-b34153541cf3",
-  "activeVersionId": "76403d07-3242-42a0-86e5-b34153541cf3",
+  "versionId": "9b872de3-b748-4baf-aa09-e2e73afb053a",
+  "activeVersionId": "9b872de3-b748-4baf-aa09-e2e73afb053a",
   "triggerCount": 2,
   "shared": [
     {
@@ -561,9 +561,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-02T10:51:32.849Z",
-    "createdAt": "2025-12-02T10:51:32.849Z",
-    "versionId": "76403d07-3242-42a0-86e5-b34153541cf3",
+    "updatedAt": "2025-12-02T11:34:39.856Z",
+    "createdAt": "2025-12-02T11:34:39.856Z",
+    "versionId": "9b872de3-b748-4baf-aa09-e2e73afb053a",
     "workflowId": "5eHR3uY5pcGDI078",
     "nodes": [
       {
