@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-02T10:47:27.840Z",
+  "updatedAt": "2025-12-02T10:51:33.203Z",
   "createdAt": "2025-11-29T15:22:09.418Z",
   "id": "5eHR3uY5pcGDI078",
   "name": "n8n Workflows GitHub Backup",
@@ -311,7 +311,7 @@
     },
     {
       "parameters": {
-        "url": "=https://api.github.com/repos/{{ $('Repo Config').first().json.finalRepo }}/contents/workflows/{{ $('Format Workflow JSON').first().json.fileName }}",
+        "url": "=https://api.github.com/repos/{{ $('Workflow Configuration').first().json.githubOwner }}/{{ $('Repo Config').first().json.finalRepo }}/contents/workflows/{{ $('Format Workflow JSON').first().json.fileName }}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "githubApi",
         "options": {
@@ -365,7 +365,7 @@
             {
               "id": "id-2",
               "name": "finalRepo",
-              "value": "={{ $('Workflow Configuration').first().json.githubOwner }}/{{\n  // 1. Check if the tags array exists and has at least one element.\n  $('Get All Workflows').item.json.tags && $('Get All Workflows').item.json.tags.length > 0\n    // If the tags array exists, proceed to check for 'public'.\n    ? ($('Get All Workflows').item.json.tags[0].name.includes('public')\n        // If 'public' is found, return the publicRepo.\n        ? $('Workflow Configuration').first().json.publicRepo\n        // If 'public' is NOT found, return the githubRepo.\n        : $('Workflow Configuration').first().json.githubRepo\n      )\n    // 2. If the tags array does NOT exist or is empty (initial check fails), return the githubRepo.\n    : $('Workflow Configuration').first().json.githubRepo\n}}",
+              "value": "={{ $('Get All Workflows').item.json.tags && $('Get All Workflows').item.json.tags.length > 0\n    // If the tags array exists, proceed to check for 'public'.\n    ? ($('Get All Workflows').item.json.tags[0].name.includes('public')\n        // If 'public' is found, return the publicRepo.\n        ? $('Workflow Configuration').first().json.publicRepo\n        // If 'public' is NOT found, return the githubRepo.\n        : $('Workflow Configuration').first().json.githubRepo\n      )\n    // 2. If the tags array does NOT exist or is empty (initial check fails), return the githubRepo.\n    : $('Workflow Configuration').first().json.githubRepo\n}}",
               "type": "string"
             }
           ]
@@ -548,8 +548,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b6f51e14-3d8b-4293-9535-64e5d9af4ccd",
-  "activeVersionId": "b6f51e14-3d8b-4293-9535-64e5d9af4ccd",
+  "versionId": "76403d07-3242-42a0-86e5-b34153541cf3",
+  "activeVersionId": "76403d07-3242-42a0-86e5-b34153541cf3",
   "triggerCount": 2,
   "shared": [
     {
@@ -561,9 +561,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-02T10:47:27.478Z",
-    "createdAt": "2025-12-02T10:47:27.478Z",
-    "versionId": "b6f51e14-3d8b-4293-9535-64e5d9af4ccd",
+    "updatedAt": "2025-12-02T10:51:32.849Z",
+    "createdAt": "2025-12-02T10:51:32.849Z",
+    "versionId": "76403d07-3242-42a0-86e5-b34153541cf3",
     "workflowId": "5eHR3uY5pcGDI078",
     "nodes": [
       {
@@ -871,7 +871,7 @@
       },
       {
         "parameters": {
-          "url": "=https://api.github.com/repos/{{ $('Repo Config').first().json.finalRepo }}/contents/workflows/{{ $('Format Workflow JSON').first().json.fileName }}",
+          "url": "=https://api.github.com/repos/{{ $('Workflow Configuration').first().json.githubOwner }}/{{ $('Repo Config').first().json.finalRepo }}/contents/workflows/{{ $('Format Workflow JSON').first().json.fileName }}",
           "authentication": "predefinedCredentialType",
           "nodeCredentialType": "githubApi",
           "options": {
@@ -925,7 +925,7 @@
               {
                 "id": "id-2",
                 "name": "finalRepo",
-                "value": "={{ $('Workflow Configuration').first().json.githubOwner }}/{{\n  // 1. Check if the tags array exists and has at least one element.\n  $('Get All Workflows').item.json.tags && $('Get All Workflows').item.json.tags.length > 0\n    // If the tags array exists, proceed to check for 'public'.\n    ? ($('Get All Workflows').item.json.tags[0].name.includes('public')\n        // If 'public' is found, return the publicRepo.\n        ? $('Workflow Configuration').first().json.publicRepo\n        // If 'public' is NOT found, return the githubRepo.\n        : $('Workflow Configuration').first().json.githubRepo\n      )\n    // 2. If the tags array does NOT exist or is empty (initial check fails), return the githubRepo.\n    : $('Workflow Configuration').first().json.githubRepo\n}}",
+                "value": "={{ $('Get All Workflows').item.json.tags && $('Get All Workflows').item.json.tags.length > 0\n    // If the tags array exists, proceed to check for 'public'.\n    ? ($('Get All Workflows').item.json.tags[0].name.includes('public')\n        // If 'public' is found, return the publicRepo.\n        ? $('Workflow Configuration').first().json.publicRepo\n        // If 'public' is NOT found, return the githubRepo.\n        : $('Workflow Configuration').first().json.githubRepo\n      )\n    // 2. If the tags array does NOT exist or is empty (initial check fails), return the githubRepo.\n    : $('Workflow Configuration').first().json.githubRepo\n}}",
                 "type": "string"
               }
             ]
