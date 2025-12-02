@@ -21,20 +21,6 @@ Why integrate these systems?
 
 ---
 
-## 🗂️ Case Study Directory
-
-Here are select breakdowns of systems I have architected and deployed. Click the **Project Name** to view the full technical breakdown and code snippets.
-
-| Project Name | Domain | Key Technologies | Business Impact |
-| :--- | :--- | :--- | :--- |
-| **[Example: Automated Lead Qualifier]** | Sales | Python, OpenAI API, CRM | ⚡ Saved 20 hrs/week of manual filtering |
-| **[Example: Intelligent PDF Analyzer]** | Legal/HR | LangChain, Pinecone, Streamlit | 🔍 Reduced contract review time by 70% |
-| **[Example: Voice-to-Action CRM Bot]** | Operations | Whisper, Make.com, Notion | 🗣️ Zero-touch data entry for field agents |
-
-*(Note: Due to NDA and privacy agreements, some proprietary data in these case studies has been obfuscated or replaced with synthetic data.)*
-
----
-
 ## 🛠️ Technology Stack
 
 I build systems using a modern, scalable stack designed for reliability.
