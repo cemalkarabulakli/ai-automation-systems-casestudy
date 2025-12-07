@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-07T19:22:07.339Z",
+  "updatedAt": "2025-12-07T19:24:23.555Z",
   "createdAt": "2025-12-07T07:37:45.022Z",
   "id": "NcX7dhB0UswMYKXi",
   "name": "n8n Workflows GitHub Backup",
@@ -532,7 +532,11 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "Europe/Istanbul",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "keTFBU0cFnAb8La7"
   },
   "staticData": {
     "node:Schedule Trigger": {
@@ -545,8 +549,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "92a70344-4b23-4c14-aba7-3a8d5e366f9a",
-  "activeVersionId": "92a70344-4b23-4c14-aba7-3a8d5e366f9a",
+  "versionId": "730f6284-6765-429c-9d0d-4640cb7a5330",
+  "activeVersionId": "730f6284-6765-429c-9d0d-4640cb7a5330",
   "triggerCount": 2,
   "shared": [
     {
@@ -558,9 +562,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-07T19:22:07.323Z",
-    "createdAt": "2025-12-07T19:22:07.323Z",
-    "versionId": "92a70344-4b23-4c14-aba7-3a8d5e366f9a",
+    "updatedAt": "2025-12-07T19:24:23.546Z",
+    "createdAt": "2025-12-07T19:24:23.546Z",
+    "versionId": "730f6284-6765-429c-9d0d-4640cb7a5330",
     "workflowId": "NcX7dhB0UswMYKXi",
     "nodes": [
       {
