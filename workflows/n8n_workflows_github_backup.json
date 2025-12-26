@@ -541,7 +541,7 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        8
+        16
       ]
     }
   },
@@ -1094,7 +1094,8 @@
     },
     "authors": "Cemal Karabulaklı",
     "name": null,
-    "description": null
+    "description": null,
+    "autosaved": false
   },
   "tags": [
     {
