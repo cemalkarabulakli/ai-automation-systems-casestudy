@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-07T19:24:23.555Z",
+  "updatedAt": "2026-01-05T20:59:55.035Z",
   "createdAt": "2025-12-07T07:37:45.022Z",
   "id": "NcX7dhB0UswMYKXi",
   "name": "n8n Workflows GitHub Backup",
@@ -342,10 +342,7 @@
       "parameters": {
         "rule": {
           "interval": [
-            {
-              "field": "hours",
-              "hoursInterval": 8
-            }
+            {}
           ]
         }
       },
@@ -549,8 +546,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "730f6284-6765-429c-9d0d-4640cb7a5330",
-  "activeVersionId": "730f6284-6765-429c-9d0d-4640cb7a5330",
+  "versionId": "74c260e5-2298-4776-88e2-f5228060c501",
+  "activeVersionId": "74c260e5-2298-4776-88e2-f5228060c501",
   "triggerCount": 2,
   "shared": [
     {
@@ -562,9 +559,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-07T19:24:23.546Z",
-    "createdAt": "2025-12-07T19:24:23.546Z",
-    "versionId": "730f6284-6765-429c-9d0d-4640cb7a5330",
+    "updatedAt": "2026-01-05T20:59:58.152Z",
+    "createdAt": "2026-01-05T20:59:55.043Z",
+    "versionId": "74c260e5-2298-4776-88e2-f5228060c501",
     "workflowId": "NcX7dhB0UswMYKXi",
     "nodes": [
       {
@@ -903,10 +900,7 @@
         "parameters": {
           "rule": {
             "interval": [
-              {
-                "field": "hours",
-                "hoursInterval": 8
-              }
+              {}
             ]
           }
         },
@@ -1093,8 +1087,8 @@
       }
     },
     "authors": "Cemal Karabulaklı",
-    "name": null,
-    "description": null,
+    "name": "Version 74c260e5",
+    "description": "",
     "autosaved": false
   },
   "tags": [
